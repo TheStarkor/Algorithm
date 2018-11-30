@@ -12,8 +12,9 @@ string check(string s){
                 cnt--;
             }
         }
-        if(cnt == 0) return "YES";
     }
+    if(cnt == 0) return "YES";
+    else return "NO";
 }
 
 int main(){
@@ -21,6 +22,7 @@ int main(){
     string s;
     cin >> n;
     while(n--){
+        cin >> s;
         cout << check(s) << '\n';
     }
 }
