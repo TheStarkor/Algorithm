@@ -29,7 +29,7 @@ int main(){
 				right.pop();
 			}
 		}
-		else if (command == 'B'){
+		else if (command == 'B') {
 			if (left.size() != 0) left.pop();
 		}
 		else if (command == 'P'){
@@ -43,8 +43,7 @@ int main(){
 		left.pop();
 	}
 	for(int i=0;right.size();i++){
-		res += right.top(); // append left
+		cout << right.top();
 		right.pop();
 	}
-	cout << res;
 }
