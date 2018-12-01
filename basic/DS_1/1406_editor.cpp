@@ -1,18 +1,19 @@
-#include <iostream> 
+#include <iostream>
 #include <string>
+#include <cstdio>
+#include <cstring>
 #include <stack>
 using namespace std;
 // '' ""
-
+char s[600000];
 int main(){
 	int n;
 	stack<char> left, right;
 	char command, a;
-	string s, res;
-	cin >> s;
-	cin >> n;
-	
-	for(int i=0;i<s.size();i++){
+	scanf("%s", s);
+	scanf("%d", &n);
+	int co = strlen(s);
+	for(int i=0;i<co;i++){
 		left.push(s[i]);
 	}
 	for(int i=0;i<n;i++){
@@ -24,7 +25,7 @@ int main(){
 			}
 		}
 		else if (command == 'D'){
-			if (right.size() != n){
+			if (right.size() != 0){
 				left.push(right.top());
 				right.pop();
 			}
@@ -43,7 +44,7 @@ int main(){
 		left.pop();
 	}
 	for(int i=0;right.size();i++){
-		cout << right.top();
+		printf("%c", right.top());
 		right.pop();
 	}
 }
