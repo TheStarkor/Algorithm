@@ -1,19 +1,17 @@
 #include <iostream>
 #include <string>
-#include <cstdio>
-#include <cstring>
 #include <stack>
 using namespace std;
 // '' ""
-char s[600000];
+
 int main(){
 	int n;
 	stack<char> left, right;
 	char command, a;
-	scanf("%s", s);
-	scanf("%d", &n);
-	int co = strlen(s);
-	for(int i=0;i<co;i++){
+	string s;
+	cin >> s;
+	cin >> n;
+	for(int i=0;i<s.size();i++){
 		left.push(s[i]);
 	}
 	for(int i=0;i<n;i++){
@@ -44,7 +42,7 @@ int main(){
 		left.pop();
 	}
 	for(int i=0;right.size();i++){
-		printf("%c", right.top());
+		cout << right.top();
 		right.pop();
 	}
 }
