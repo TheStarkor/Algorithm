@@ -1,59 +1,26 @@
 #include <iostream>
+#define max(a,b) (((a)>(b))?(a):(b))
 using namespace std;
-int d[2][100001];
-
-int max(int n){
-	int max = -10000, y = 0, x = 0;
-	for (int i=0;i<2;i++){
-		for (int j=0;j<n;j++){
-			if (max < d[i][j]){
-				max = d[i][j];
-				y = i;
-				x = j;
-			} 
-		}
-	}
-	if (y==0){
-		d[y][x] = -1;
-		d[y+1][x] = -1;
-		if (x==0) d[y][x+1] = -1;
-		else if (x==(n-1)) d[y][x-1] = -1;
-		else{
-			d[y][x-1] = -1;
-			d[y][x+1] = -1;
-		}
-	}
-	else {
-		d[y][x] = -1;
-		d[y-1][x] = -1;
-		if (x==0) d[y][x+1] = -1;
-		else if (x==(n-1)) d[y][x-1] = -1;
-		else{
-			d[y][x-1] = -1;
-			d[y][x+1] = -1;
-		}
-	}
-	return max;
-}
 
 int main(){
-	int cnt, n, re = 0, ans = 0;
+	int cnt, n, ans = 0, s[100001][3], d[100001][3];
 	cin >> cnt;
 	while(cnt--){
 		cin >> n;
-		for (int i=0;i<2;i++){
-			for (int j=0;j<n;j++){
-				cin >> d[i][j];
+		for (int i=1;i<=2;i++){
+			for (int j=1;j<=n;j++){
+				cin >> s[j][i];
 			}
 		}
-		while (re != -1){
-			re = max(n);
-			ans += re;
-			// cout << "re : " << re << '\n';
+		d[1][0] = 0;
+		d[1][1] = s[1][1];
+		d[1][2] = s[1][2];
+		for (int i=2;i<=n;i++){
+			d[i][0] = max(max(d[i-1][0],d[i-1][1]),d[i-1][2]);
+			d[i][1] = max(d[i-1][0],d[i-1][2]) + s[i][1];
+			d[i][2] = max(d[i-1][0],d[i-1][1]) + s[i][2];
 		}
-		ans++;
+		ans = max(max(d[n][0],d[n][1]),d[n][2]);
 		cout << ans << '\n';
-		ans = 0;
-		re = 0;
 	}
 }
