@@ -17,12 +17,12 @@ int solve(int num, int state) {
 	if (ans != -1) return ans;
 	int row = num / c;
 	int col = num % c;
-	if (a[row][col] == 'X') return solve(num + 1, state >> 1);
+	if (a[row][col] == 'X') return ans = solve(num + 1, state >> 1);
 	ans = solve(num + 1, state >> 1);
 	if ((state & 1) == 0) {
 		if ((row + col) % 2 == 0) {
 			if (row + 1 < r && col + 1 < c) {
-				if ((state & 2) == 0 && (state&(1 << c)) == 0 && a[row + 1][col] == '.'&&a[row][col + 1] == '.') {
+				if ((state & 2) == 0 && a[row + 1][col] == '.' && a[row][col + 1] == '.') {
 					ans = max(ans, solve(num + 2, (state >> 2) | (1 << (c - 2))) + 1);
 				}
 			}
@@ -34,13 +34,13 @@ int solve(int num, int state) {
 				}
 			}
 			if(row + 1 < r && col - 1 >= 0){
-				if ((state&(1<<(c - 1))) == 0 && (state&(1<<c) == 0) && a[row + 1][col - 1] == '.' && a[row + 1][col] == '.') {
+				if ((state&(1<<(c - 1))) == 0 && a[row + 1][col - 1] == '.' && a[row + 1][col] == '.') {
 					ans = max(ans, solve(num + 1, (state >> 1) | (1 << (c - 2)) | (1 << (c - 1))) + 1);
 				}
 			}
 			if (row + 1 < r && col + 1 < c) {
-				if (state&(1<<c) == 0 && a[row + 1][col] == '.' && a[row + 1][col + 1] == '.') {
-					ans = max(ans, solve(num + 1, (state >> 1) | (1 << (c - 1)) | (1 << c)) + 1);
+				if (a[row + 1][col] == '.' && a[row + 1][col + 1] == '.') {
+					ans = max(ans, solve(num + 2, (state >> 2) | (1 << (c - 1)) | (1 << (c-2))) + 1);
 				}
 			}
 		}
