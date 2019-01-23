@@ -9,8 +9,6 @@
   - DP - Bitmask, Probability, Expected Value, DP Opt.
   - String, SCC, BCC, Articulation Point and Bridge, 2-SAT
 
-----------------------
-
 ##### 문제 풀이는 추후 블로그에 업데이트 예정
 
 ##### 올림피아드 종류별로 풀어서 정리 할 예정
