@@ -11,84 +11,54 @@
 #include <set>
 #include <map>
 using namespace std;
-struct MaximumFlow {
-	struct Edge {
-		int to;
-		int capacity;
-		Edge *rev;
-		Edge(int to, int capacity) : to(to), capacity(capacity){}
-	};
-	int n;
-	int source, sink;
-	vector<vector<Edge *>> graph;
-	vector<vector<Edge *>> tmp;
-	vector<bool> check;
-	MaximumFlow(int n) : n(n) {
-		graph.resize(n);
-		check.resize(n);
-	};
-	void add_edge(int u, int v, int cap) {
-		Edge *ori = new Edge(v, cap);
-		Edge *rev = new Edge(u, 0);
-		ori->rev = rev;
-		rev->rev = ori;
-		graph[u].push_back(ori);
-		graph[v].push_back(rev);
-	}
-	int dfs(int x, int c) {
-		if (check[x]) return 0;
-		check[x] = true;
-		if (x == sink) return c;
-		for (int i = 0; i < tmp[x].size(); i++) {
-			if (tmp[x][i]->capacity > 0) {
-				int nc = tmp[x][i]->capacity;
-				if (c != 0 && c < nc) {
-					nc = c;
-				}
-				int f = dfs(tmp[x][i]->to, nc);
-				if (f) {
-					tmp[x][i]->capacity -= f;
-					tmp[x][i]->rev->capacity += f;
-					return f;
-				}
-			}
-		}
-	}
-	void init() {
-		tmp = graph;
-	}
-	int flow(int source, int si) {
-		int ans, i = 0;
-		sink = si;
-		init();
-		while (true) {
-			fill(check.begin(), check.end(), false);
-			if (i == 0) {
-				ans = dfs(source, 0);
-				if (ans == 0) break;
-				i += 1;
-			}
-			else {
-				int f = dfs(source, 0);
-				if (f == 0) break;
-				if (f > ans) ans = f;
-				cout << f << '\n';
-			}
-		}
-		return ans;
-	}
+struct Edge {
+	int to;
+	int cost;
+	Edge(int to, int cost) : to(to), cost(cost) {}
 };
+int n, m, q;
+vector<Edge> a[200001];
+bool check[2000001];
+vector<int> s;
+set<int> ans;
+void dfs(int node, int goal, int c) {
+	check[node] = true;
+	s.push_back(node);
+	if (node == goal) {
+		ans.insert(c);
+		s.pop_back();
+		return;
+	}
+	for (auto x : a[node]) {
+		int next = x.to;
+		if (!check[next]) {
+			if (x.cost > c) {
+				x.cost = c;
+			}
+			dfs(next, goal, x.cost);
+			check[next] = false;
+		}
+	}
+	s.pop_back();
+}
 int main() {
 	ios_base::sync_with_stdio(false);
-	int n, m, q; cin >> n >> m >> q;
-	MaximumFlow mf(n+1);
+	cin >> n >> m >> q;
 	for (int i = 0; i < m; i++) {
-		int a, b, v; cin >> a >> b >> v;
-		mf.add_edge(a, b, v);
-		mf.add_edge(b, a, v);
+		int from, to, cost;
+		cin >> from >> to >> cost;
+		a[from].push_back(Edge(to, cost));
+		a[to].push_back(Edge(from, cost));
 	}
+	int inf = 2000000000;
 	for (int i = 0; i < q; i++) {
-		int a, b; cin >> a >> b;
-		cout << mf.flow(a, b) << '\n';
+		int x, y; cin >> x >> y;
+		for (int j = 0; j <= n; j++) check[j] = false;
+		ans.clear();
+		dfs(x, y, inf);
+		int ma = 0;
+		for (int x : ans) ma = max(ma,x);
+		cout << ma << '\n';
 	}
+
 }
